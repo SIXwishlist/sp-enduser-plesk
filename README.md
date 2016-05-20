@@ -7,7 +7,8 @@ Requirements
 
 Installation
 -------------
-1. Download the latest [release](https://github.com/halonsecurity/sp-enduser-plesk/releases) to the Plesk server using `curl` or `wget`
-2. Install the plugin with `extension --install sp-enduser-plesk-CURRENT-RELEASE.zip`
+1. Clone the project on the Plesk server using `git`
+2. Zip the contents of the `/src` directory with `cd sp-enduser-plesk/src && zip -r ../sp-enduser-plesk.zip . && cd ..`
+2. Install the plugin with `extension --install sp-enduser-plesk.zip`
 
 You can uninstall the plugin with `extension --uninstall halon-enduser`
