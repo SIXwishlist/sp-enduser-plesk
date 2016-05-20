@@ -8,15 +8,15 @@ class IndexController extends pm_Controller_Action
 
 		$this->view->pageTitle = 'Halon Anti-spam';
 	}
-    public function indexAction()
+	public function indexAction()
 	{
 		if (pm_Session::getClient()->isAdmin()) {
 			$this->_forward('settings');
 		} else {
 			$this->_forward('login');
 		}
-    }
-    public function loginAction()
+	}
+	public function loginAction()
 	{
 		// Get timezone offset from client
 		if (isset($_GET['timezone'])) {
@@ -63,8 +63,8 @@ class IndexController extends pm_Controller_Action
 		}
 
 		$this->_helper->redirector->gotoUrlAndExit($enduser.'/session-transfer.php?session='.$result->session);
-    }
-    public function settingsAction()
+	}
+	public function settingsAction()
 	{
 		if (!pm_Session::getClient()->isAdmin()) {
 			throw new pm_Exception('Permission denied.');
@@ -98,5 +98,5 @@ class IndexController extends pm_Controller_Action
 			$this->_helper->json(array('redirect' => pm_Context::getBaseUrl()));
 		}
 		$this->view->form = $form;
-    }
+	}
 }

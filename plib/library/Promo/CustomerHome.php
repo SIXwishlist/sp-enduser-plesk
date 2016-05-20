@@ -17,7 +17,7 @@ class Modules_HalonEnduser_Promo_CustomerHome extends pm_Promo_CustomerHome
 	{
 		return '/modules/halon-enduser/';
 	}
-    public function getIconUrl()
+	public function getIconUrl()
 	{
 		pm_Context::init('halon-enduser');
 		return pm_Context::getBaseUrl().'/images/icon-48x48.png';
