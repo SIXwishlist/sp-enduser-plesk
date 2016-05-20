@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+  <id>halon-enduser</id>
+  <name>Halon Anti-spam</name>
+  <description>End-user web application for Halon's email gateway</description>
+  <version>1.0</version>
+  <release>1</release>
+  <vendor>Halon Security AB</vendor>
+  <url>http://halon.io</url>
+  <plesk_min_version>12.5.30</plesk_min_version>
+</module>
