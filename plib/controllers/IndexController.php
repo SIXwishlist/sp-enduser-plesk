@@ -10,7 +10,7 @@ class IndexController extends pm_Controller_Action
 	}
 	public function indexAction()
 	{
-		if (pm_Session::getClient()->isAdmin()) {
+		if (pm_Session::getClient()->isAdmin() and !isset($_GET['site_id'])) {
 			$this->_forward('settings');
 		} else {
 			$this->_forward('login');
@@ -18,28 +18,38 @@ class IndexController extends pm_Controller_Action
 	}
 	public function loginAction()
 	{
-		// Get timezone offset from client
-		if (isset($_GET['timezone'])) {
-			$timezone = intval($_GET['timezone']);
-		} else {
-			die('<script>window.location.href = "?timezone=" + new Date().getTimezoneOffset();</script>');
-		}
-
 		$enduser = pm_Settings::get('enduserURL');
 		$apikey = pm_Settings::get('apiKey');
-		$session = new pm_Session();
-		$client = $session->getClient();
-		$username = $client->GetProperty('login');
 
 		if (!$enduser or !$apikey) {
 			throw new pm_Exception('Required extension settings are not configured.');
 		}
 
-		if ($client->isClient()) {
-			$domain = pm_Session::getCurrentDomain()->getName();
+		$session = new pm_Session();
+		$client = $session->getClient();
+
+		if (isset($_GET['site_id'])) {
+			$domain = new pm_Domain($_GET['site_id']);
+			$domain = $domain->getName();
+			if (!$client->hasAccessToDomain($_GET['site_id'])) {
+				throw new pm_Exception('Permission denied.');
+			}
+		} else {
+			throw new pm_Exception('Missing domain.');
+		}
+
+		// Get timezone offset from client
+		if (isset($_GET['timezone'])) {
+			$timezone = intval($_GET['timezone']);
+		} else {
+			die('<script>window.location.href = "?timezone=" + new Date().getTimezoneOffset() + "&site_id='.$_GET['site_id'].'"</script>');
+		}
+
+		if ($client->isClient() or $client->isAdmin()) {
+			$username = $client->GetProperty('login');
 			$access = array('domain' => array($domain));
 		} else {
-			throw new pm_Exception('Only clients can use this extension.');
+			throw new pm_Exception('Only admins and clients can use this extension.');
 		}
 
 		$get = http_build_query(
