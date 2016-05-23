@@ -1,7 +1,8 @@
 <?php
-class Modules_HalonEnduser_CustomButtons extends pm_Hook_CustomButtons {
-
-	public function getButtons() {
+class Modules_HalonEnduser_CustomButtons extends pm_Hook_CustomButtons
+{
+	public function getButtons()
+	{
 		$buttons = [[
 			'place' => self::PLACE_DOMAIN_PROPERTIES,
 			'title' => 'Halon Anti-spam',
@@ -13,6 +14,4 @@ class Modules_HalonEnduser_CustomButtons extends pm_Hook_CustomButtons {
 		]];
 		return $buttons;
 	}
-
 }
-?>
