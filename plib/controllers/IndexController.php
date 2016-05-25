@@ -45,11 +45,11 @@ class IndexController extends pm_Controller_Action
 			die('<script>window.location.href = "?timezone=" + new Date().getTimezoneOffset() + "&site_id='.$_GET['site_id'].'"</script>');
 		}
 
-		if ($client->isClient() or $client->isAdmin()) {
+		if ($client->isClient() or $client->isAdmin() or $client->isReseller()) {
 			$username = $client->GetProperty('login');
 			$access = array('domain' => array($domain));
 		} else {
-			throw new pm_Exception('Only admins and clients can use this extension.');
+			throw new pm_Exception('Account type is not supported.');
 		}
 
 		$get = http_build_query(
