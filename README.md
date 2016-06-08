@@ -9,6 +9,6 @@ Installation
 -------------
 1. Clone the project to the Plesk server using `git`
 2. Zip the contents of the cloned project using `zip`
-2. Install the plugin with `extension --install sp-enduser-plesk.zip`
+2. Install the extension with `extension --install sp-enduser-plesk.zip`
 
 You can uninstall the plugin with `extension --uninstall halon-enduser`
