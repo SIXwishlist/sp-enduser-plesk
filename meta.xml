@@ -2,7 +2,7 @@
 <module>
   <id>halon-enduser</id>
   <name>Halon Anti-spam</name>
-  <description>End-user web application for Halon's email gateway</description>
+  <description>Plesk extension for the end-user web application for Halon's email gateway.</description>
   <version>1.0</version>
   <release>1</release>
   <vendor>Halon Security AB</vendor>

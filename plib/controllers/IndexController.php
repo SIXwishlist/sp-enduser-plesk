@@ -7,6 +7,17 @@ class IndexController extends pm_Controller_Action
 		parent::init();
 
 		$this->view->pageTitle = 'Halon Anti-spam';
+
+		$this->view->tabs = array(
+			array(
+				'title' => 'Settings',
+				'action' => 'settings',
+			),
+			array(
+				'title' => 'Help',
+				'action' => 'help',
+			),
+		);
 	}
 	public function indexAction()
 	{
@@ -83,6 +94,7 @@ class IndexController extends pm_Controller_Action
 		$form = new pm_Form_Simple();
 		$form->addElement('text', 'enduserURL', array(
 			'label' => 'URL',
+			'description' => "The URL to your sp-enduser web application",
 			'value' => pm_Settings::get('enduserURL'),
 			'required' => true,
 			'validators' => array(
@@ -91,6 +103,7 @@ class IndexController extends pm_Controller_Action
 		));
 		$form->addElement('text', 'apiKey', array(
 			'label' => 'API key',
+			'description' => 'The API key for your sp-enduser web application',
 			'value' => pm_Settings::get('apiKey'),
 			'required' => true,
 			'validators' => array(
@@ -108,5 +121,7 @@ class IndexController extends pm_Controller_Action
 			$this->_helper->json(array('redirect' => pm_Context::getBaseUrl()));
 		}
 		$this->view->form = $form;
+	}
+	public function helpAction() {
 	}
 }
