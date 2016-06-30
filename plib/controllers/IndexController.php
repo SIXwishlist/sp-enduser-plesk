@@ -14,6 +14,10 @@ class IndexController extends pm_Controller_Action
 				'action' => 'settings',
 			),
 			array(
+				'title' => 'Test',
+				'action' => 'test',
+			),
+			array(
 				'title' => 'Help',
 				'action' => 'help',
 			),
@@ -120,8 +124,56 @@ class IndexController extends pm_Controller_Action
 			$this->_status->addMessage('info', 'Data was successfully saved.');
 			$this->_helper->json(array('redirect' => pm_Context::getBaseUrl()));
 		}
+
 		$this->view->form = $form;
 	}
-	public function helpAction() {
+	public function testAction()
+	{
+		if (!pm_Session::getClient()->isAdmin()) {
+			throw new pm_Exception('Permission denied.');
+		}
+
+		$form = new pm_Form_Simple();
+		$form->setMethod('post')->setAttrib('name', 'form');
+		$form->addElement('button', 'test', array(
+			'label' => 'Test',
+			'onclick' => "document.form.submit();",
+		));
+
+		if ($this->getRequest()->isPost() && $form->isValid($this->getRequest()->getPost())) {
+			$enduser = pm_Settings::get('enduserURL');
+			$apikey = pm_Settings::get('apiKey');
+
+			$get = http_build_query(
+				array(
+					'username' => 'test',
+					'api-key' => $apikey
+				)
+			);
+			$opts = array(
+				'http' => array(
+					'method'  => 'POST',
+					'header'  => 'Content-type: application/x-www-form-urlencoded',
+					'content' => http_build_query(array('access' => ['domain' => ['example.com']]))
+				)
+			);
+			$context = stream_context_create($opts);
+			$result = json_decode(@file_get_contents($enduser.'/session-transfer.php?'.$get, false, $context));
+
+			if (!$result || !isset($result->session)) {
+				$this->_status->addMessage('error', 'Transfer failed.');
+			} else {
+				$this->_status->addMessage('info', 'Transfer was successful.');
+			}
+			$this->_helper->json(array('redirect' => pm_Context::getActionUrl('index', 'test')));
+		}
+		
+		$this->view->form = $form;
+	}
+	public function helpAction()
+	{
+		if (!pm_Session::getClient()->isAdmin()) {
+			throw new pm_Exception('Permission denied.');
+		}
 	}
 }
